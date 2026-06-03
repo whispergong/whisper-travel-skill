@@ -62,6 +62,8 @@ Use 高德 for China route verification and POI grounding:
 - `maps_distance`: compare candidate detours or hotel-to-anchor distances.
 - `maps_around_search`: find scenic spots, hotels, food, gas stations, parking, visitor centers, viewpoints and service clusters.
 
+Avoid blasting AMap requests in parallel. If the MCP returns `CUQPS_HAS_EXCEEDED_THE_LIMIT`, pause, retry serially, and record the retry in source health instead of treating the map source as fully failed.
+
 For overseas routes, do not pretend 高德 is authoritative. Use it only when it returns reliable coverage and clearly state limitations.
 
 ## Travel Skills and Search Tools

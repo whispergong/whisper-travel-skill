@@ -2,7 +2,7 @@
 
 面向中文旅行场景的 Codex/Agent 技能仓库。核心技能包括：
 
-- `travel-planning-cn`：完整旅行规划总控，覆盖攻略搜集、图片读取、路线验证、每日行程、住宿安排和费用估算。
+- `travel-planning-cn`：完整旅行规划总控，覆盖攻略搜集、图片读取、路线验证、每日行程、住宿安排、费用估算和腾讯智能文档交付。
 - `hotel-search-cn`：国内酒店聚合搜索、比价和推荐，覆盖高德定位、FlyAI/飞猪、AIGoHotel、同程程心、携程问道、同程网页端、携程网页端等来源。
 
 ## 快速安装
@@ -33,6 +33,16 @@ cd /Users/whisper/Desktop/workplace/xiaohongshu-skills
 ```
 
 如未登录，请按该项目的 `xiaohongshu-skills` / `xhs-auth` 指引启动 Chrome 并登录。连续详情采集要控制频率，避免触发风控；同一时间只让一个 agent 操作小红书详情页或同一个可见浏览器。
+
+## 腾讯智能文档依赖
+
+`travel-planning-cn` 完成攻略后，会默认创建一篇腾讯智能文档（smartcanvas），用于沉淀每日计划、路线图、景点链接、酒店和费用表。创建前需确保腾讯文档 MCP 已授权：
+
+```bash
+mcporter list tencent-docs
+```
+
+如果提示 token 失效或未授权，请按 `/Users/whisper/Desktop/workplace/tencent-docs/SKILL.md` 中的授权说明完成登录授权后重试。文档内图片必须先通过腾讯文档 `upload_image` 上传，不能直接使用外链图片。
 
 ## FlyAI MCP 支撑工具
 

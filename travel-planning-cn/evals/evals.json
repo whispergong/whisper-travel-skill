@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "从广州自驾到云南香格里拉，再从香格里拉回广州。没定具体天数，帮我做完整路线规划，沿途有什么好玩的也要看，最后给每天住宿点和大致费用。",
-      "expected_output": "应识别为国内自驾往返规划；先做来源健康检查；用小红书浏览器自动化路径和中文网络攻略搜集路线/沿途/避坑并读取图片；用高德验证总路线和每日路线；未指定天数时推断合理天数；用 hotel-search-cn 安排每天住宿点；输出每日行程、住宿、费用表和待复核风险。",
+      "expected_output": "应识别为国内自驾往返规划；先做来源健康检查；用小红书浏览器自动化路径和中文网络攻略搜集路线/沿途/避坑并读取图片；用高德验证总路线和每日路线；未指定天数时推断合理天数；用 hotel-search-cn 安排每天住宿点；输出每日行程、住宿、费用表和待复核风险；最终创建腾讯智能文档并返回链接。",
       "files": [],
       "assertions": [
         "Output includes source health checks for Xiaohongshu, image reading, AMap, hotel-search-cn, and auxiliary travel sources.",
@@ -18,7 +18,11 @@
         "Output uses AMap/高德 to verify route distance or daily driving feasibility.",
         "Output includes a day-by-day itinerary with start/end points and along-the-way stops.",
         "Output calls or plans to call hotel-search-cn for each stable lodging anchor.",
-        "Output includes a rough cost table with hotel, fuel, toll, tickets, meals, and buffer or equivalent categories."
+        "Output includes a rough cost table with hotel, fuel, toll, tickets, meals, and buffer or equivalent categories.",
+        "Output creates or explicitly plans a Tencent smartcanvas document with title, URL or file_id after the itinerary is stable.",
+        "Output can fall back to manage.create_file plus smartcanvas.edit if create_smartcanvas_by_mdx is unavailable or fails.",
+        "Output includes a route image, route screenshot, or generated route diagram in the Tencent smart document when feasible.",
+        "Output includes attraction introduction links and Xiaohongshu guide links or note IDs for major ticketed attractions."
       ]
     },
     {
