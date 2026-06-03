@@ -1,0 +1,49 @@
+{
+  "skill_name": "travel-planning-cn",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "从广州自驾到云南香格里拉，再从香格里拉回广州。没定具体天数，帮我做完整路线规划，沿途有什么好玩的也要看，最后给每天住宿点和大致费用。",
+      "expected_output": "应识别为国内自驾往返规划；先做来源健康检查；用小红书浏览器自动化路径和中文网络攻略搜集路线/沿途/避坑并读取图片；用高德验证总路线和每日路线；未指定天数时推断合理天数；用 hotel-search-cn 安排每天住宿点；输出每日行程、住宿、费用表和待复核风险。",
+      "files": [],
+      "assertions": [
+        "Output includes source health checks for Xiaohongshu, image reading, AMap, hotel-search-cn, and auxiliary travel sources.",
+        "Output uses or instructs using Xiaohongshu as a high-weight travel guide source.",
+        "Output treats Xiaohongshu as a browser/Bridge automation source rather than direct HTTP/API scraping.",
+        "Output explicitly uses the local /Users/whisper/Desktop/workplace/xiaohongshu-skills/scripts/cli.py entrypoint or changes into /Users/whisper/Desktop/workplace/xiaohongshu-skills before running scripts/cli.py.",
+        "Output limits Xiaohongshu detail fetching to small batches, such as at most 3 notes before waiting 10-20 seconds.",
+        "Output says only one agent should operate the Xiaohongshu browser/detail workflow at a time.",
+        "Output explicitly says Xiaohongshu images or route screenshots should be read and converted into itinerary facts.",
+        "Output infers a recommended trip length instead of asking for days as the first response.",
+        "Output uses AMap/高德 to verify route distance or daily driving feasibility.",
+        "Output includes a day-by-day itinerary with start/end points and along-the-way stops.",
+        "Output calls or plans to call hotel-search-cn for each stable lodging anchor.",
+        "Output includes a rough cost table with hotel, fuel, toll, tickets, meals, and buffer or equivalent categories."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "广州自驾云南，帮我规划一下。",
+      "expected_output": "应发现目的地/方向过宽且是否往返不明确；先追问核心目的地或偏好区域，而不是直接编完整路线。",
+      "files": [],
+      "assertions": [
+        "Output asks the user to clarify the core destination, route direction, or whether it is a round trip.",
+        "Output does not fabricate a complete day-by-day plan before the destination ambiguity is resolved.",
+        "Output keeps the travel mode as self-driving and asks only material clarification questions."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "我想从上海去日本关西玩 7 天，公共交通为主，帮我做路线规划，尽量看本地攻略。",
+      "expected_output": "应识别为海外公共交通规划；使用日文关键词和英文 fallback 搜索当地攻略；可以参考小红书但不能只用中文内容；说明高德对日本路线验证不是主依据；输出 7 天游玩路线、城市间交通和住宿区域建议。",
+      "files": [],
+      "assertions": [
+        "Output uses Japanese/local-language search strategy plus English fallback for Japan.",
+        "Output says AMap/高德 is not authoritative for overseas route verification.",
+        "Output may use Xiaohongshu as supplementary inspiration but does not rely only on Chinese social content.",
+        "Output includes a 7-day public-transit-oriented itinerary.",
+        "Output includes lodging areas or hotel-search limitations for overseas planning."
+      ]
+    }
+  ]
+}

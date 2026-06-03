@@ -21,3 +21,4 @@ yarn-error.log*
 
 # Skill evaluation workspaces are generated run artifacts, not installable skill content.
 hotel-search-cn-workspace/
+travel-planning-cn-workspace/
