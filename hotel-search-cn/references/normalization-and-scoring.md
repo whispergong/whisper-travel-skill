@@ -79,10 +79,23 @@ Use report labels such as:
 For each deduped hotel:
 
 - List all platform prices and links by source.
-- Compute lowest, median, and highest price from valid prices only.
+- Compute lowest, P25, P40, median/P50, P75, and highest price from valid prices only. P40 is the default "comfort line": it reflects the point where roughly 40% of comparable options are cheaper and 60% are more expensive.
 - Treat a price as valid only if it belongs to the requested check-in/check-out date and guest count, or if the source clearly states it is the current available starting price for that query.
 - If a platform shows no room, login-only price, or unclear date, keep it as a note and do not use it in numeric scoring.
 - When one source surfaces a promising hotel, search the same hotel name in other available sources or visible web pages when practical. Cross-platform prices for the same hotel are more useful than comparing unrelated hotels across platforms.
+- Do not apply a default max-price filter before seeing the market. Unless the user provides a hard budget, collect a broad candidate set first, then judge value by the observed local distribution.
+- Build the comparable price pool from the same destination/anchor, stay date, guest count, and broadly similar lodging class. If there are enough candidates, compare hotels with hotels and homestays/inns with homestays/inns; if the pool is small, use one local pool and clearly note the mix.
+- Rank valid candidate prices from low to high and assign a price percentile. Tied prices share the same percentile band.
+
+Price percentile guidance:
+
+| Price position | Treatment |
+| --- | --- |
+| `<= P25` | Strong price boost if date, room type, location, and reviews are credible; otherwise mark as possible bargain with verification needed. |
+| `P25-P40` | Positive price signal and usually within the comfortable value zone. |
+| `P40-P60` | Slight price drag; still acceptable when location, rating, breakfast, parking, or availability is better. |
+| `P60-P75` | Clear premium; require visible justification in the recommendation. |
+| `> P75` | High-price penalty; recommend only as comfort/location pick or when the market is inventory-constrained. |
 
 Price anomaly rules:
 
@@ -96,17 +109,23 @@ Default value-for-money score:
 
 | Component | Weight |
 | --- | ---: |
-| Price | 25% |
+| Price | 30% |
 | Location | 25% |
-| Rating | 20% |
-| Review/sales volume and source coverage | 15% |
+| Rating | 18% |
+| Review/sales volume and source coverage | 12% |
 | Facilities and availability confidence | 15% |
 
 Use this as a ranking guide, not a fake precision score. In the report, explain the top drivers in plain language.
 
+Adjust price weight by intent:
+
+- If the user says "性价比", "别太贵", "预算有限", "价格敏感", or similar, raise Price to about 35% and take the difference mostly from Rating and Facilities.
+- If the user gives a hard budget, keep candidates outside the budget visible when useful, but mark them as over-budget instead of hiding the market shape.
+- If the user explicitly prioritizes comfort, luxury, family facilities, or a specific hotel class, lower Price to about 25% and explain which premium is justified.
+
 Component guidance:
 
-- Price: favor hotels near the local median with good rating and verified availability. Do not automatically rank the cheapest first.
+- Price: first sort valid prices from low to high, compute P40, and favor credible hotels at or below the P40 comfort line. Above P40, apply increasing price drag unless other signals justify the premium. Do not automatically rank the absolute cheapest first when the price is suspicious or the room/location is weak.
 - Location: use AMap distance to target and anchors; prefer practical travel distance over raw straight-line distance when route data exists.
 - Rating: favor consistently high ratings, but down-weight ratings with little review/sales evidence.
 - Review/sales volume and source coverage: reward broad evidence across reviews and independent sources; mark missing volume as unknown rather than bad.

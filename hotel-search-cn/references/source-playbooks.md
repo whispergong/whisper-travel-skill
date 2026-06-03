@@ -47,7 +47,7 @@ Optional filters:
 - `--hotel-types "酒店"` / `民宿` / `客栈`
 - `--hotel-stars "3,4,5"`
 - `--hotel-bed-types "大床房,双床房"`
-- `--max-price <number>`
+- `--max-price <number>` only when the user gives a hard budget; otherwise avoid price caps until after the initial market distribution is known.
 - `--sort distance_asc`, `rate_desc`, `price_asc`, or `no_rank`.
 
 Capture from each item:
