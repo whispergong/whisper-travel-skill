@@ -66,6 +66,17 @@ Avoid blasting AMap requests in parallel. If the MCP returns `CUQPS_HAS_EXCEEDED
 
 For overseas routes, do not pretend 高德 is authoritative. Use it only when it returns reliable coverage and clearly state limitations.
 
+### AMap Route Visuals
+
+AMap MCP route facts should feed the document map assets:
+
+- For the overview route, resolve all overnight anchors and major scenic anchors, then call the relevant route tool segment by segment. Keep a `route_assets` note with coordinates, segment distance/time, major roads and map image status.
+- For each day, call the relevant route tool for that day's start/end and planned stops. Generate a daily route map when feasible.
+- Preferred visual source: a real AMap route/map screenshot or static map generated from the verified coordinates and waypoints.
+- Acceptable fallback: an annotated map or route diagram generated from AMap-verified coordinates and segment metrics, labeled `高德核验路线示意图`.
+- Not acceptable: a decorative route line with no AMap-verified points or a map image that contradicts the route data.
+- When using generated images for non-map decoration, explicitly prefer `GPT-IMAGE2`; do not use it to replace required route verification.
+
 ## Travel Skills and Search Tools
 
 Use auxiliary travel sources to cross-check route feasibility, POIs, tickets, packages and transport:

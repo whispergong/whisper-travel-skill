@@ -342,6 +342,7 @@ Example first-page visible results for the known Kanas search:
 Capture:
 
 - Hotel name, price, rating, distance text, tags/facilities, sales/review hints, room-status hints, and detail link.
+- Preserve detail links for final output. Prioritize Ctrip and Tongcheng detail URLs when the visible page exposes them; if only the list URL/search URL is available, label it as a platform search/list link instead of pretending it is a hotel detail page.
 
 Failure handling:
 
@@ -406,6 +407,7 @@ Example first-page visible results for the Sayram Lake search when logged in:
 Capture:
 
 - Hotel name, price, rating, distance/location text, review/sales hints, facilities/tags, room status, and link.
+- Preserve detail links for final output. If Ctrip only exposes a detail link after opening the card, open the visible card in the same browser/profile and capture that URL when login/captcha does not block it.
 
 Failure handling:
 

@@ -39,6 +39,8 @@ Each day should have:
 
 - Start and end point.
 - Main route and estimated distance/duration.
+- A visible route flow or timeline using arrows, for example `出发地 -> 沿途点 -> 景区 -> 酒店`.
+- A daily route map or route visual when feasible; when not feasible, keep the arrow flow and a compact segment table.
 - 1-4 meaningful stops, not an overloaded checklist.
 - A lodging anchor that is practical for the next day.
 - Meals/fuel/charging/parking/visitor-center notes when relevant.
