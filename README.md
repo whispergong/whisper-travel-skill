@@ -4,27 +4,18 @@
 
 ## 快速安装
 
-安装到 Codex 技能目录：
+推荐使用 skills CLI 安装指定技能：
 
 ```bash
-set -e
-repo_dir="${HOME}/Desktop/workplace/whisper-travel-skill"
-mkdir -p "$(dirname "$repo_dir")" "${HOME}/.codex/skills"
-if [ -d "$repo_dir/.git" ]; then
-  git -C "$repo_dir" pull --ff-only
-else
-  git clone https://github.com/whispergong/whisper-travel-skill.git "$repo_dir"
-fi
-rsync -a --delete "$repo_dir/hotel-search-cn/" "${HOME}/.codex/skills/hotel-search-cn/"
-echo "Installed: ${HOME}/.codex/skills/hotel-search-cn"
+npx skills add https://github.com/whispergong/whisper-travel-skill.git --skill hotel-search-cn
 ```
 
-如果希望 Cursor 或其他 agent 也复用同一技能，可同步到 `~/.agents/skills`：
+手动安装时，可直接同步技能目录：
 
 ```bash
-mkdir -p "${HOME}/.agents/skills"
-rsync -a --delete "${HOME}/Desktop/workplace/whisper-travel-skill/hotel-search-cn/" "${HOME}/.agents/skills/hotel-search-cn/"
-echo "Installed: ${HOME}/.agents/skills/hotel-search-cn"
+git clone https://github.com/whispergong/whisper-travel-skill.git
+mkdir -p "${HOME}/.codex/skills"
+rsync -a --delete whisper-travel-skill/hotel-search-cn/ "${HOME}/.codex/skills/hotel-search-cn/"
 ```
 
 ## FlyAI MCP 支撑工具
