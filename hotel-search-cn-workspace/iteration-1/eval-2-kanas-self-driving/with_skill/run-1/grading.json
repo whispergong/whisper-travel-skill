@@ -1,0 +1,53 @@
+{
+  "expectations": [
+    {
+      "text": "Output identifies the travel mode as self-driving/自驾/有车.",
+      "passed": true,
+      "evidence": "PASS: checked for self-driving mode"
+    },
+    {
+      "text": "Output increases attention to parking, road access, main-road access, or parking-lot proximity.",
+      "passed": true,
+      "evidence": "PASS: checked for parking/road access emphasis"
+    },
+    {
+      "text": "Output avoids ranking only by closest distance to the scenic entrance.",
+      "passed": true,
+      "evidence": "PASS: checked not only closest-distance ranking"
+    },
+    {
+      "text": "Output includes recommendations and cautions tailored to self-driving.",
+      "passed": true,
+      "evidence": "PASS: checked for self-driving mode"
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 7621,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0,
+    "note": "Subagent notifications in this environment did not include total_tokens or duration_ms, so timing/tokens are unavailable."
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [
+      "Automated text-based grading; human review recommended for factual hotel accuracy."
+    ]
+  },
+  "eval_feedback": {
+    "overall": "Assertions are text-coverage checks for workflow behavior, not factual verification of hotel inventory or live pricing."
+  }
+}

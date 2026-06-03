@@ -1,0 +1,123 @@
+{
+  "skill_name": "hotel-search-cn",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我查新疆喀纳斯景区贾登峪附近酒店，2026-06-06 入住，2026-06-07 离店，2 名成人 1 间房。不要布尔津县城，不要禾木。想看价格、评分、房源、设施，并给出性价比推荐。",
+      "expected_output": "应先做来源健康检查，再用高德定位喀纳斯/贾登峪锚点，并聚合 FlyAI、AIGoHotel、同程程心、携程问道、同程网页、携程网页、高德 POI；输出来源结果、合并比价、价格异常和 3-5 个推荐。",
+      "files": [],
+      "assertions": [
+        "Output includes a 来源健康检查/source health section.",
+        "Output references AMap/高德 for location or anchor validation.",
+        "Output references at least three primary hotel sources among FlyAI/飞猪, AIGoHotel, 同程程心, 携程问道, 同程网页, 携程网页.",
+        "Output includes a merged comparison or platform price comparison table/section.",
+        "Output compares or attempts to compare the same promising hotel across multiple sources when the hotel appears in more than one source.",
+        "Output does not use Jinko, travel-cn, or Qunar/去哪儿 as active v1 sources.",
+        "Output includes final hotel recommendations plus caution/risk notes."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "我们自驾去喀纳斯，2026-06-06 到 2026-06-07，2 个成人，想住贾登峪或景区入口附近，优先停车方便、道路好走，不要只按离景区最近推荐。",
+      "expected_output": "应识别出行方式为自驾/有车，提高停车、道路可达、主路/停车场距离权重；推荐理由要解释为什么某些稍远酒店比入口附近酒店更适合自驾。",
+      "files": [],
+      "assertions": [
+        "Output identifies the travel mode as self-driving/自驾/有车.",
+        "Output increases attention to parking, road access, main-road access, or parking-lot proximity.",
+        "Output avoids ranking only by closest distance to the scenic entrance.",
+        "Output includes recommendations and cautions tailored to self-driving."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "我一个人公共交通自由行去喀纳斯，2026-06-06 入住 1 晚，想住方便坐接驳车或公交的位置，预算别太贵，帮我比一下酒店和民宿。",
+      "expected_output": "应识别公共交通/自由行，提高游客中心、接驳站、步行距离权重；对远离交通节点的酒店做位置惩罚，并输出酒店和民宿的性价比对比。",
+      "files": [],
+      "assertions": [
+        "Output identifies public transit/公共交通/接驳车/公交 as a key travel mode.",
+        "Output increases attention to visitor centers, shuttle/bus stops, walking distance, or transfer stations.",
+        "Output penalizes or warns about hotels far from transit nodes.",
+        "Output compares hotels and homestays or at least explicitly discusses both categories."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "查上海外滩附近酒店，2026-07-10 入住，2026-07-12 离店，2 成人 1 儿童，预算每晚 800-1200，要早餐，公共交通方便，帮我比较携程、同程、飞猪。",
+      "expected_output": "应按公共交通方便和早餐偏好筛选/解释；需要包含多平台来源结果、价格区间、合并比价表和推荐结论。",
+      "files": [],
+      "assertions": [
+        "Output accounts for the 800-1200 CNY nightly budget.",
+        "Output accounts for breakfast requirements.",
+        "Output accounts for public transit convenience near the Bund.",
+        "Output compares or attempts to compare Ctrip/携程, Tongcheng/同程, and Fliggy/飞猪.",
+        "Output includes recommendations and platform/source caveats."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "帮我找喀纳斯附近性价比高的酒店。",
+      "expected_output": "应发现缺少入住/离店日期和入住人数，先追问关键参数，不应直接猜日期或开始搜索。",
+      "files": [],
+      "assertions": [
+        "Output asks for missing check-in/check-out dates and guest count or room information.",
+        "Output does not invent concrete stay dates.",
+        "Output does not provide final hotel recommendations before required inputs are supplied."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "假设 WENDAO_API_KEY 没配置，帮我查 2026-06-06 喀纳斯贾登峪 2 成人酒店，并告诉我有哪些来源可用。",
+      "expected_output": "应在来源健康检查中明确携程问道缺 key 或不可用，并要求修复或确认降级；其他来源仍应列出可用/不可用状态，不得静默跳过问道。",
+      "files": [],
+      "assertions": [
+        "Output explicitly mentions WENDAO_API_KEY or 携程问道 key as missing/unavailable in source health.",
+        "Output asks the user to configure the missing key or confirm degraded execution.",
+        "Output lists other sources as available/unavailable instead of silently skipping Wendao.",
+        "Output does not fabricate Wendao results."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "帮我查 2026-06-13 喀纳斯贾登峪酒店。假设 FlyAI CLI 缺失、AIGoHotel MCP 没有暴露成工具、携程网页未登录、同程网页未登录，其他 key 都在。",
+      "expected_output": "应先把超过 2 个主来源环境异常识别为需要优先修复：尝试安装/验证 FlyAI CLI 或 flyai-cli MCP wrapper，尝试 AIGoHotel Streamable HTTP fallback 或 helper 脚本，打开携程/同程可见页面让用户登录或标记需登录复核；除非用户明确降级继续，不应直接输出最终推荐。",
+      "files": [],
+      "assertions": [
+        "Output counts or recognizes that more than two primary sources have environment/auth problems.",
+        "Output prioritizes environment repair before final recommendations.",
+        "Output attempts or instructs to install/verify FlyAI CLI or flyai-cli MCP wrapper when missing.",
+        "Output attempts or instructs to use AIGoHotel HTTP fallback or helper script when configured but not exposed.",
+        "Output asks the user to log in for Ctrip/Tongcheng web when login blocks price/list access.",
+        "Output says to use a visible browser/profile for web login and to continue with the same profile after login.",
+        "Output does not fabricate missing web or MCP results."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "同程网页端我能正常搜。请修复喀纳斯贾登峪 2026-06-13 到 2026-06-14 这个用例里同程网页被判失败的问题，要求用可见浏览器真实路径，优先复用 Edge/Playwright 持久化 profile，必要时让我登录。",
+      "expected_output": "应优先使用 Codex Chrome/Edge 扩展或可见 Playwright/Edge profile 探索同程真实搜索路径，入口使用 https://www.ly.com/hotel；不要因为首页联想或点击失败就判同程不可用；应记录可用的 hotellist 路由、日期、关键词、命中数和前几条可见酒店结果，并把流程更新进 skill。",
+      "files": [],
+      "assertions": [
+        "Output uses or instructs using the Codex Chrome/Edge extension first when available, otherwise a visible browser/profile for Tongcheng web.",
+        "Output uses or records the Tongcheng hotel entry URL https://www.ly.com/hotel.",
+        "Output does not treat a failed homepage suggestion path as final Tongcheng failure without retrying.",
+        "Output includes a stable Tongcheng hotellist route or equivalent visible user-path flow.",
+        "Output verifies that the requested date range is visible on the result page.",
+        "Output captures visible Tongcheng hotel results, prices, ratings, or explains why login is required.",
+        "Output updates or proposes updates to the hotel-search-cn skill workflow."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "帮我查 2026-06-13 到 2026-06-14 那拉提草原附近 2 成人酒店。请尽量用子 agent 并行查不同来源；如果子 agent 数量不够，就按优先级排队。",
+      "expected_output": "应明确规划来源级子 agent 分工，例如地图/测距、FlyAI/AIGoHotel、程心/问道、网页端；网页端因共享浏览器应串行或由单个浏览器 agent 处理；若子 agent 上限不足，应说明排队优先级并继续补齐来源结果。",
+      "files": [],
+      "assertions": [
+        "Output plans or uses source-level subagents for independent hotel sources when available.",
+        "Output separates at least three source groups among maps, FlyAI/AIGoHotel, Chengxin/Wendao, and web browser sources.",
+        "Output treats Ctrip/Tongcheng web as shared-browser work that should not be controlled by multiple agents at the same time.",
+        "Output mentions queuing or priority order when subagent capacity is insufficient.",
+        "Output keeps final normalization, deduplication, price comparison, and recommendations in the main agent rather than delegating final judgment entirely."
+      ]
+    }
+  ]
+}

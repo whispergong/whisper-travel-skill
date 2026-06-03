@@ -1,0 +1,51 @@
+{
+  "expectations": [
+    {
+      "text": "Output asks for missing check-in/check-out dates and guest count or room information.",
+      "passed": false,
+      "evidence": "FAIL: checked missing date/guest clarification"
+    },
+    {
+      "text": "Output does not invent concrete stay dates.",
+      "passed": true,
+      "evidence": "PASS: checked no invented concrete dates"
+    },
+    {
+      "text": "Output does not provide final hotel recommendations before required inputs are supplied.",
+      "passed": false,
+      "evidence": "FAIL: checked no final hotel recommendations before required inputs"
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 2,
+    "total": 3,
+    "pass_rate": 0.3333
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 1473,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0,
+    "note": "Subagent notifications in this environment did not include total_tokens or duration_ms, so timing/tokens are unavailable."
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [
+      "Output asks for missing check-in/check-out dates and guest count or room information.",
+      "Output does not provide final hotel recommendations before required inputs are supplied."
+    ],
+    "workarounds": [
+      "Automated text-based grading; human review recommended for factual hotel accuracy."
+    ]
+  },
+  "eval_feedback": {
+    "overall": "Assertions are text-coverage checks for workflow behavior, not factual verification of hotel inventory or live pricing."
+  }
+}

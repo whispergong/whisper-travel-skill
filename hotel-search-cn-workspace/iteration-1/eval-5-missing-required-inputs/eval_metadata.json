@@ -1,0 +1,17 @@
+{
+  "eval_id": 5,
+  "eval_name": "missing-required-inputs",
+  "prompt": "帮我找喀纳斯附近性价比高的酒店。",
+  "expected_output": "应发现缺少入住/离店日期和入住人数，先追问关键参数，不应直接猜日期或开始搜索。",
+  "assertions": [
+    {
+      "text": "Output asks for missing check-in/check-out dates and guest count or room information."
+    },
+    {
+      "text": "Output does not invent concrete stay dates."
+    },
+    {
+      "text": "Output does not provide final hotel recommendations before required inputs are supplied."
+    }
+  ]
+}

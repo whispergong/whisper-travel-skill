@@ -1,0 +1,20 @@
+{
+  "eval_id": 3,
+  "eval_name": "kanas-public-transit",
+  "prompt": "我一个人公共交通自由行去喀纳斯，2026-06-06 入住 1 晚，想住方便坐接驳车或公交的位置，预算别太贵，帮我比一下酒店和民宿。",
+  "expected_output": "应识别公共交通/自由行，提高游客中心、接驳站、步行距离权重；对远离交通节点的酒店做位置惩罚，并输出酒店和民宿的性价比对比。",
+  "assertions": [
+    {
+      "text": "Output identifies public transit/公共交通/接驳车/公交 as a key travel mode."
+    },
+    {
+      "text": "Output increases attention to visitor centers, shuttle/bus stops, walking distance, or transfer stations."
+    },
+    {
+      "text": "Output penalizes or warns about hotels far from transit nodes."
+    },
+    {
+      "text": "Output compares hotels and homestays or at least explicitly discusses both categories."
+    }
+  ]
+}

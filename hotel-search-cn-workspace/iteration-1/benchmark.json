@@ -1,0 +1,581 @@
+{
+  "metadata": {
+    "skill_name": "hotel-search-cn",
+    "skill_path": "/Users/whisper/Desktop/workplace/whisper-travel-skill/hotel-search-cn",
+    "executor_model": "inherited parent model via subagents",
+    "analyzer_model": "text-based local grader",
+    "timestamp": "2026-06-02T08:27:00Z",
+    "evals_run": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 0,
+        "tokens": 8610,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output includes a 来源健康检查/source health section.",
+          "passed": true,
+          "evidence": "PASS: checked for source health section"
+        },
+        {
+          "text": "Output references AMap/高德 for location or anchor validation.",
+          "passed": true,
+          "evidence": "PASS: checked for AMap/高德 location usage"
+        },
+        {
+          "text": "Output references at least three primary hotel sources among FlyAI/飞猪, AIGoHotel, 同程程心, 携程问道, 同程网页, 携程网页.",
+          "passed": true,
+          "evidence": "PASS: found primary hotel source mentions: FlyAI/飞猪, AIGoHotel, 同程程心, 携程问道, 同程网页, 携程网页"
+        },
+        {
+          "text": "Output includes a merged comparison or platform price comparison table/section.",
+          "passed": true,
+          "evidence": "PASS: checked for merged/platform comparison"
+        },
+        {
+          "text": "Output does not use Jinko, travel-cn, or Qunar/去哪儿 as active v1 sources.",
+          "passed": true,
+          "evidence": "PASS: checked excluded sources are not active sources"
+        },
+        {
+          "text": "Output includes final hotel recommendations plus caution/risk notes.",
+          "passed": true,
+          "evidence": "PASS: checked for recommendations and cautions"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0,
+        "tokens": 7621,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output identifies the travel mode as self-driving/自驾/有车.",
+          "passed": true,
+          "evidence": "PASS: checked for self-driving mode"
+        },
+        {
+          "text": "Output increases attention to parking, road access, main-road access, or parking-lot proximity.",
+          "passed": true,
+          "evidence": "PASS: checked for parking/road access emphasis"
+        },
+        {
+          "text": "Output avoids ranking only by closest distance to the scenic entrance.",
+          "passed": true,
+          "evidence": "PASS: checked not only closest-distance ranking"
+        },
+        {
+          "text": "Output includes recommendations and cautions tailored to self-driving.",
+          "passed": true,
+          "evidence": "PASS: checked for self-driving mode"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0,
+        "tokens": 5539,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output identifies public transit/公共交通/接驳车/公交 as a key travel mode.",
+          "passed": true,
+          "evidence": "PASS: checked for public transit mode"
+        },
+        {
+          "text": "Output increases attention to visitor centers, shuttle/bus stops, walking distance, or transfer stations.",
+          "passed": true,
+          "evidence": "PASS: checked for transit anchor emphasis"
+        },
+        {
+          "text": "Output penalizes or warns about hotels far from transit nodes.",
+          "passed": true,
+          "evidence": "PASS: checked for warnings/penalties on far transit nodes"
+        },
+        {
+          "text": "Output compares hotels and homestays or at least explicitly discusses both categories.",
+          "passed": true,
+          "evidence": "PASS: checked hotel/homestay discussion"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0,
+        "tokens": 5431,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output accounts for the 800-1200 CNY nightly budget.",
+          "passed": true,
+          "evidence": "PASS: checked budget mention"
+        },
+        {
+          "text": "Output accounts for breakfast requirements.",
+          "passed": true,
+          "evidence": "PASS: checked breakfast mention"
+        },
+        {
+          "text": "Output accounts for public transit convenience near the Bund.",
+          "passed": true,
+          "evidence": "PASS: checked transit convenience"
+        },
+        {
+          "text": "Output compares or attempts to compare Ctrip/携程, Tongcheng/同程, and Fliggy/飞猪.",
+          "passed": true,
+          "evidence": "PASS: checked Ctrip/Tongcheng/Fliggy comparison attempt"
+        },
+        {
+          "text": "Output includes recommendations and platform/source caveats.",
+          "passed": true,
+          "evidence": "PASS: checked recommendations and source caveats"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 5,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 0,
+        "tokens": 1238,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output asks for missing check-in/check-out dates and guest count or room information.",
+          "passed": true,
+          "evidence": "PASS: checked missing date/guest clarification"
+        },
+        {
+          "text": "Output does not invent concrete stay dates.",
+          "passed": true,
+          "evidence": "PASS: checked no invented concrete dates"
+        },
+        {
+          "text": "Output does not provide final hotel recommendations before required inputs are supplied.",
+          "passed": true,
+          "evidence": "PASS: checked no final hotel recommendations before required inputs"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 6,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0,
+        "tokens": 4014,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output explicitly mentions WENDAO_API_KEY or 携程问道 key as missing/unavailable in source health.",
+          "passed": true,
+          "evidence": "PASS: checked Wendao key missing/unavailable"
+        },
+        {
+          "text": "Output asks the user to configure the missing key or confirm degraded execution.",
+          "passed": true,
+          "evidence": "PASS: checked configure/degraded execution instruction"
+        },
+        {
+          "text": "Output lists other sources as available/unavailable instead of silently skipping Wendao.",
+          "passed": true,
+          "evidence": "PASS: checked other source availability listed"
+        },
+        {
+          "text": "Output does not fabricate Wendao results.",
+          "passed": true,
+          "evidence": "PASS: checked no fabricated Wendao results"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 3,
+        "failed": 3,
+        "total": 6,
+        "time_seconds": 0,
+        "tokens": 4971,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output includes a 来源健康检查/source health section.",
+          "passed": false,
+          "evidence": "FAIL: checked for source health section"
+        },
+        {
+          "text": "Output references AMap/高德 for location or anchor validation.",
+          "passed": true,
+          "evidence": "PASS: checked for AMap/高德 location usage"
+        },
+        {
+          "text": "Output references at least three primary hotel sources among FlyAI/飞猪, AIGoHotel, 同程程心, 携程问道, 同程网页, 携程网页.",
+          "passed": false,
+          "evidence": "FAIL: found primary hotel source mentions: FlyAI/飞猪"
+        },
+        {
+          "text": "Output includes a merged comparison or platform price comparison table/section.",
+          "passed": false,
+          "evidence": "FAIL: checked for merged/platform comparison"
+        },
+        {
+          "text": "Output does not use Jinko, travel-cn, or Qunar/去哪儿 as active v1 sources.",
+          "passed": true,
+          "evidence": "PASS: checked excluded sources are not active sources"
+        },
+        {
+          "text": "Output includes final hotel recommendations plus caution/risk notes.",
+          "passed": true,
+          "evidence": "PASS: checked for recommendations and cautions"
+        }
+      ],
+      "notes": [
+        "Output includes a 来源健康检查/source health section.",
+        "Output references at least three primary hotel sources among FlyAI/飞猪, AIGoHotel, 同程程心, 携程问道, 同程网页, 携程网页.",
+        "Output includes a merged comparison or platform price comparison table/section.",
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0,
+        "tokens": 3311,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output identifies the travel mode as self-driving/自驾/有车.",
+          "passed": true,
+          "evidence": "PASS: checked for self-driving mode"
+        },
+        {
+          "text": "Output increases attention to parking, road access, main-road access, or parking-lot proximity.",
+          "passed": true,
+          "evidence": "PASS: checked for parking/road access emphasis"
+        },
+        {
+          "text": "Output avoids ranking only by closest distance to the scenic entrance.",
+          "passed": true,
+          "evidence": "PASS: checked not only closest-distance ranking"
+        },
+        {
+          "text": "Output includes recommendations and cautions tailored to self-driving.",
+          "passed": true,
+          "evidence": "PASS: checked for self-driving mode"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 3,
+        "failed": 1,
+        "total": 4,
+        "time_seconds": 0,
+        "tokens": 4603,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output identifies public transit/公共交通/接驳车/公交 as a key travel mode.",
+          "passed": true,
+          "evidence": "PASS: checked for public transit mode"
+        },
+        {
+          "text": "Output increases attention to visitor centers, shuttle/bus stops, walking distance, or transfer stations.",
+          "passed": true,
+          "evidence": "PASS: checked for transit anchor emphasis"
+        },
+        {
+          "text": "Output penalizes or warns about hotels far from transit nodes.",
+          "passed": false,
+          "evidence": "FAIL: checked for warnings/penalties on far transit nodes"
+        },
+        {
+          "text": "Output compares hotels and homestays or at least explicitly discusses both categories.",
+          "passed": true,
+          "evidence": "PASS: checked hotel/homestay discussion"
+        }
+      ],
+      "notes": [
+        "Output penalizes or warns about hotels far from transit nodes.",
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0,
+        "tokens": 3872,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output accounts for the 800-1200 CNY nightly budget.",
+          "passed": true,
+          "evidence": "PASS: checked budget mention"
+        },
+        {
+          "text": "Output accounts for breakfast requirements.",
+          "passed": true,
+          "evidence": "PASS: checked breakfast mention"
+        },
+        {
+          "text": "Output accounts for public transit convenience near the Bund.",
+          "passed": true,
+          "evidence": "PASS: checked transit convenience"
+        },
+        {
+          "text": "Output compares or attempts to compare Ctrip/携程, Tongcheng/同程, and Fliggy/飞猪.",
+          "passed": true,
+          "evidence": "PASS: checked Ctrip/Tongcheng/Fliggy comparison attempt"
+        },
+        {
+          "text": "Output includes recommendations and platform/source caveats.",
+          "passed": true,
+          "evidence": "PASS: checked recommendations and source caveats"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 5,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 1,
+        "failed": 2,
+        "total": 3,
+        "time_seconds": 0,
+        "tokens": 1473,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output asks for missing check-in/check-out dates and guest count or room information.",
+          "passed": false,
+          "evidence": "FAIL: checked missing date/guest clarification"
+        },
+        {
+          "text": "Output does not invent concrete stay dates.",
+          "passed": true,
+          "evidence": "PASS: checked no invented concrete dates"
+        },
+        {
+          "text": "Output does not provide final hotel recommendations before required inputs are supplied.",
+          "passed": false,
+          "evidence": "FAIL: checked no final hotel recommendations before required inputs"
+        }
+      ],
+      "notes": [
+        "Output asks for missing check-in/check-out dates and guest count or room information.",
+        "Output does not provide final hotel recommendations before required inputs are supplied.",
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    },
+    {
+      "eval_id": 6,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 0,
+        "tokens": 5625,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Output explicitly mentions WENDAO_API_KEY or 携程问道 key as missing/unavailable in source health.",
+          "passed": true,
+          "evidence": "PASS: checked Wendao key missing/unavailable"
+        },
+        {
+          "text": "Output asks the user to configure the missing key or confirm degraded execution.",
+          "passed": true,
+          "evidence": "PASS: checked configure/degraded execution instruction"
+        },
+        {
+          "text": "Output lists other sources as available/unavailable instead of silently skipping Wendao.",
+          "passed": true,
+          "evidence": "PASS: checked other source availability listed"
+        },
+        {
+          "text": "Output does not fabricate Wendao results.",
+          "passed": true,
+          "evidence": "PASS: checked no fabricated Wendao results"
+        }
+      ],
+      "notes": [
+        "Automated text-based grading; human review recommended for factual hotel accuracy."
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1,
+        "stddev": 0,
+        "min": 1,
+        "max": 1
+      },
+      "time_seconds": {
+        "mean": 0,
+        "stddev": 0,
+        "min": 0,
+        "max": 0
+      },
+      "tokens": {
+        "mean": 5408.8333,
+        "stddev": 2626.7849,
+        "min": 1238,
+        "max": 8610
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.7639,
+        "stddev": 0.2907,
+        "min": 0.3333,
+        "max": 1
+      },
+      "time_seconds": {
+        "mean": 0,
+        "stddev": 0,
+        "min": 0,
+        "max": 0
+      },
+      "tokens": {
+        "mean": 3975.8333,
+        "stddev": 1471.0816,
+        "min": 1473,
+        "max": 5625
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.24",
+      "time_seconds": "+0.0",
+      "tokens": "+1433"
+    }
+  },
+  "notes": [
+    "Each eval was run once with hotel-search-cn and once without the skill; the aggregate compares 6 with-skill reports vs 6 baseline reports.",
+    "With-skill passed all workflow assertions (100%). Baseline passed 76.4%, with the largest gaps on the composite multi-source workflow and missing-input handling.",
+    "The self-driving, Shanghai, and missing-Wendao-key baselines did well because the prompts explicitly named the important constraints; these assertions are less differentiating.",
+    "The skill consistently improved source-health reporting, explicit fallback behavior, transport-mode weighting, and avoidance of invented dates/results.",
+    "Subagent notifications did not include total_tokens or duration_ms, so timing is unavailable and token statistics in this benchmark are output character counts from report.md, not model token usage.",
+    "Several runs were interrupted to stop long web/API probing; reports include partial source failures. Treat live hotel inventory and pricing as qualitative, not final booking-grade verification."
+  ]
+}

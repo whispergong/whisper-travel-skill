@@ -1,0 +1,58 @@
+{
+  "expectations": [
+    {
+      "text": "Output accounts for the 800-1200 CNY nightly budget.",
+      "passed": true,
+      "evidence": "PASS: checked budget mention"
+    },
+    {
+      "text": "Output accounts for breakfast requirements.",
+      "passed": true,
+      "evidence": "PASS: checked breakfast mention"
+    },
+    {
+      "text": "Output accounts for public transit convenience near the Bund.",
+      "passed": true,
+      "evidence": "PASS: checked transit convenience"
+    },
+    {
+      "text": "Output compares or attempts to compare Ctrip/携程, Tongcheng/同程, and Fliggy/飞猪.",
+      "passed": true,
+      "evidence": "PASS: checked Ctrip/Tongcheng/Fliggy comparison attempt"
+    },
+    {
+      "text": "Output includes recommendations and platform/source caveats.",
+      "passed": true,
+      "evidence": "PASS: checked recommendations and source caveats"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 3872,
+    "transcript_chars": 0
+  },
+  "timing": {
+    "total_duration_seconds": 0,
+    "note": "Subagent notifications in this environment did not include total_tokens or duration_ms, so timing/tokens are unavailable."
+  },
+  "claims": [],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [
+      "Automated text-based grading; human review recommended for factual hotel accuracy."
+    ]
+  },
+  "eval_feedback": {
+    "overall": "Assertions are text-coverage checks for workflow behavior, not factual verification of hotel inventory or live pricing."
+  }
+}

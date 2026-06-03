@@ -1,0 +1,8 @@
+[
+  "Each eval was run once with hotel-search-cn and once without the skill; the aggregate compares 6 with-skill reports vs 6 baseline reports.",
+  "With-skill passed all workflow assertions (100%). Baseline passed 76.4%, with the largest gaps on the composite multi-source workflow and missing-input handling.",
+  "The self-driving, Shanghai, and missing-Wendao-key baselines did well because the prompts explicitly named the important constraints; these assertions are less differentiating.",
+  "The skill consistently improved source-health reporting, explicit fallback behavior, transport-mode weighting, and avoidance of invented dates/results.",
+  "Subagent notifications did not include total_tokens or duration_ms, so timing is unavailable and token statistics in this benchmark are output character counts from report.md, not model token usage.",
+  "Several runs were interrupted to stop long web/API probing; reports include partial source failures. Treat live hotel inventory and pricing as qualitative, not final booking-grade verification."
+]

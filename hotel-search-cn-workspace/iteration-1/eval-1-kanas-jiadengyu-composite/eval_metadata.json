@@ -1,0 +1,26 @@
+{
+  "eval_id": 1,
+  "eval_name": "kanas-jiadengyu-composite",
+  "prompt": "帮我查新疆喀纳斯景区贾登峪附近酒店，2026-06-06 入住，2026-06-07 离店，2 名成人 1 间房。不要布尔津县城，不要禾木。想看价格、评分、房源、设施，并给出性价比推荐。",
+  "expected_output": "应先做来源健康检查，再用高德定位喀纳斯/贾登峪锚点，并聚合 FlyAI、AIGoHotel、同程程心、携程问道、同程网页、携程网页、高德 POI；输出来源结果、合并比价、价格异常和 3-5 个推荐。",
+  "assertions": [
+    {
+      "text": "Output includes a 来源健康检查/source health section."
+    },
+    {
+      "text": "Output references AMap/高德 for location or anchor validation."
+    },
+    {
+      "text": "Output references at least three primary hotel sources among FlyAI/飞猪, AIGoHotel, 同程程心, 携程问道, 同程网页, 携程网页."
+    },
+    {
+      "text": "Output includes a merged comparison or platform price comparison table/section."
+    },
+    {
+      "text": "Output does not use Jinko, travel-cn, or Qunar/去哪儿 as active v1 sources."
+    },
+    {
+      "text": "Output includes final hotel recommendations plus caution/risk notes."
+    }
+  ]
+}
