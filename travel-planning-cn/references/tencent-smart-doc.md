@@ -1,6 +1,14 @@
 # Tencent Smart Document Delivery
 
-After the itinerary is stable, create a Tencent smart document (`smartcanvas`) as the shareable final artifact. Use `/Users/whisper/Desktop/workplace/tencent-docs/SKILL.md` and the `smartcanvas/entry.md` workflow.
+After the itinerary is stable, create a Tencent smart document (`smartcanvas`) as the shareable final artifact. Use `/Users/whisper/Desktop/workplace/tencent-docs/SKILL.md` and the `smartcanvas/entry.md` workflow. The document is for travelers, not for agent debugging.
+
+Use the built-in Tencent Docs travel template as the closest local pattern:
+
+```bash
+/Users/whisper/Desktop/workplace/tencent-docs/smartcanvas/template/quanzhou_3_day_travel_guide.mdx
+```
+
+It uses a clear title, itinerary card, route overview, daily sections, columns/callouts, lodging/transport guidance and practical tips. Adapt that structure to the destination instead of producing a dense diagnostic report.
 
 ## Preflight
 
@@ -16,16 +24,22 @@ Confirm the tool list includes `create_smartcanvas_by_mdx`, `manage.create_file`
 
 The smart document should be visually polished and useful when opened later. Include:
 
-- A short frontmatter block with `title` and one `icon`.
-- A concise conclusion section: recommended days, route, driving pressure, best-fit traveler, biggest risks.
+- A document title in two places: Tencent file title and visible body title. When using fallback creation, start the inserted content with a visible `<Heading level="1">` or `#` title because frontmatter is not used by `smartcanvas.edit`.
+- A short travel card: duration, route, total distance, driving pressure, best season or date caveat, suitable travelers.
 - Route visual: prefer an image generated from AMap-verified points, a captured map screenshot, or a clean route diagram. If no image can be created, include a route table and explain the limitation.
-- Daily plan: a table with day, start/end, distance/time, stops, lodging anchor and reminders.
-- Day detail sections: each day has practical notes for driving, parking, scenic stops, meals/fuel and weather/altitude risks.
+- Route overview: one compact table or bullets for the whole route, but do not cram all daily details into one wide table.
+- Daily plan: make each day a level-2 section (`## Day N ...`) or MDX `<Heading level="2">`. Inside each day include start/end, distance/time, route stops, practical driving notes, parking/altitude/weather reminders, and that night's concrete hotel recommendations.
 - Attraction links: add official/introductory links for specific attractions when available.
 - Large ticketed scenic spots: add Xiaohongshu guide links or note IDs for practical touring strategy.
-- Hotels: summarize `hotel-search-cn` recommendations or lodging anchors, with price confidence.
+- Hotels: every overnight stop should have 1-3 concrete hotel candidates, not only a lodging area. Prefer `hotel-search-cn` recommendations; if dates are missing, still provide representative candidates with a clear "date-specific price needs recheck" note. Include hotel name, area, why it fits, parking/transport relevance and price confidence.
 - Cost table: hotel, fuel, toll, tickets, parking/shuttle, meals and buffer.
 - Pending checks: weather, closures, reservations, hotel prices, vehicle restrictions.
+
+Do not include in the final smart document:
+
+- Source health checks, environment status, API keys, MCP/tool failures, retry logs or "this test command hung" notes.
+- Raw source dumps, long copied comments, internal scoring tables or agent handoff content.
+- A giant all-days table as the only itinerary. Tables are useful for overview, but daily details need their own readable sections.
 
 ## Image Rules
 
@@ -55,6 +69,14 @@ If the tool list shows `create_smartcanvas_by_mdx` but calling it fails with an 
    ```bash
    mcporter call tencent-docs smartcanvas.edit --args '{"file_id":"...","action":"INSERT_AFTER","id":"","content":"..."}'
    ```
+
+When using this fallback, remove frontmatter from the inserted content and put a visible title block at the top, for example:
+
+```mdx
+<Heading level="1">
+    广州到香格里拉自驾往返攻略
+</Heading>
+```
 
 For verification, if `smartcanvas.read` fails with the same RPC error, use:
 

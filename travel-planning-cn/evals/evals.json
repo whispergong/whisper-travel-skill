@@ -22,7 +22,11 @@
         "Output creates or explicitly plans a Tencent smartcanvas document with title, URL or file_id after the itinerary is stable.",
         "Output can fall back to manage.create_file plus smartcanvas.edit if create_smartcanvas_by_mdx is unavailable or fails.",
         "Output includes a route image, route screenshot, or generated route diagram in the Tencent smart document when feasible.",
-        "Output includes attraction introduction links and Xiaohongshu guide links or note IDs for major ticketed attractions."
+        "Output includes attraction introduction links and Xiaohongshu guide links or note IDs for major ticketed attractions.",
+        "Tencent smart document has a visible body title and does not rely only on the file title.",
+        "Tencent smart document does not include source health checks, MCP/tool failure logs, API status, or agent debugging details.",
+        "Tencent smart document uses one section per day rather than only a cramped all-days table.",
+        "Tencent smart document includes concrete hotel candidates for each overnight stop, with price/date confidence when exact dates are missing."
       ]
     },
     {
