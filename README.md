@@ -2,16 +2,23 @@
 
 面向中文旅行场景的 Codex/Agent 技能仓库。核心技能包括：
 
+- `whisper-travel-cn`：整合入口，安装一个 skill 即可在内部自动分流到完整旅行规划或酒店搜索。
 - `travel-planning-cn`：完整旅行规划总控，覆盖攻略搜集、图片读取、路线验证、每日行程、住宿安排、费用估算和腾讯智能文档交付。
 - `hotel-search-cn`：国内酒店聚合搜索、比价和推荐，覆盖高德定位、FlyAI/飞猪、AIGoHotel、同程程心、携程问道、同程网页端、携程网页端等来源。
 
 ## 快速安装
 
-推荐使用 skills CLI 安装指定技能：
+推荐只安装整合入口。它会根据用户请求自动调用仓库内的 `travel-planning-cn` 或 `hotel-search-cn` 子流程：
 
 ```bash
-npx skills add https://github.com/whispergong/whisper-travel-skill.git --skill travel-planning-cn
-npx skills add https://github.com/whispergong/whisper-travel-skill.git --skill hotel-search-cn
+npx skills add https://github.com/whispergong/whisper-travel-skill.git
+```
+
+如需单独调试某个子 skill，可按需安装：
+
+```bash
+npx skills add https://github.com/whispergong/whisper-travel-skill.git --skill travel-planning-cn --full-depth
+npx skills add https://github.com/whispergong/whisper-travel-skill.git --skill hotel-search-cn --full-depth
 ```
 
 手动安装时，可直接同步技能目录：
@@ -19,8 +26,7 @@ npx skills add https://github.com/whispergong/whisper-travel-skill.git --skill h
 ```bash
 git clone https://github.com/whispergong/whisper-travel-skill.git
 mkdir -p "${HOME}/.codex/skills"
-rsync -a --delete whisper-travel-skill/travel-planning-cn/ "${HOME}/.codex/skills/travel-planning-cn/"
-rsync -a --delete whisper-travel-skill/hotel-search-cn/ "${HOME}/.codex/skills/hotel-search-cn/"
+rsync -a --delete whisper-travel-skill/ "${HOME}/.codex/skills/whisper-travel-cn/"
 ```
 
 ## 小红书依赖
@@ -66,8 +72,10 @@ chmod 600 "${HOME}/.config/mcp/secrets.env"
 
 ## 仓库内容约定
 
+- `SKILL.md`：整合入口 skill，负责把完整旅行规划和酒店搜索分流到对应子流程。
 - `travel-planning-cn/`：完整旅行规划总控技能目录，必须提交。
 - `hotel-search-cn/`：酒店搜索子技能目录，必须提交。
+- `evals/`：整合入口的分流评测用例，建议提交。
 - `*/evals/`：评测用例定义，建议提交。
 - `tools/flyai-cli-mcp/`：技能依赖的 FlyAI MCP 支撑工具，建议提交源码与锁文件。
 - `*-workspace/iteration-*`：技能迭代产生的本地评测结果、报告和调试产物，不提交到 Git。

@@ -1,0 +1,43 @@
+{
+  "skill_name": "whisper-travel-cn",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "从广州自驾到香格里拉来回，帮我做路线、每天住哪里、费用，最后生成腾讯文档。",
+      "expected_output": "应识别为完整旅行规划请求，加载 travel-planning-cn 作为总控；未给天数时根据路线和攻略推断推荐天数；使用小红书浏览器攻略、图片读取、高德路线验证和 hotel-search-cn 每日住宿子流程；最终输出路线、每日计划、酒店、费用表并创建腾讯智能文档。",
+      "files": [],
+      "assertions": [
+        "Output routes the request to travel-planning-cn rather than treating it as hotel-only.",
+        "Output infers a recommended trip length instead of asking for days first.",
+        "Output uses or plans Xiaohongshu browser-based guide research and image reading.",
+        "Output uses AMap/高德 route verification for the self-driving route.",
+        "Output calls or plans to call hotel-search-cn for daily lodging anchors.",
+        "Output includes or creates a Tencent smart travel document."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "帮我查新疆喀纳斯贾登峪 6月13日入住、6月14日离店，2 成人 1 间房酒店，最好比一下携程和同程。",
+      "expected_output": "应识别为酒店-only 请求，直接加载 hotel-search-cn；要求补齐年份或沿用用户明确的旅行年份语境后执行；输出来源健康检查、位置锚点、价格分布、携程/同程等多源比价和推荐酒店。",
+      "files": [],
+      "assertions": [
+        "Output routes the request to hotel-search-cn rather than building a full itinerary.",
+        "Output asks for missing year or states the assumed year before searching.",
+        "Output includes source health checks.",
+        "Output compares or attempts to compare Ctrip/携程 and Tongcheng/同程.",
+        "Output includes price distribution and final hotel recommendations."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "广州自驾云南，帮我规划。",
+      "expected_output": "应识别为完整旅行规划但目的地/方向过宽，加载 travel-planning-cn 的歧义处理规则；先追问核心目的地、偏好区域或是否往返，而不是直接编完整路线。",
+      "files": [],
+      "assertions": [
+        "Output routes the request to travel-planning-cn.",
+        "Output asks a material clarification question about destination, route direction, or round trip.",
+        "Output does not fabricate a complete day-by-day itinerary before ambiguity is resolved."
+      ]
+    }
+  ]
+}
