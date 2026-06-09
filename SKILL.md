@@ -20,13 +20,15 @@ This is the integrated entrypoint for the `whisper-travel-skill` repository. Use
 - `travel-planning-cn` owns the final route, daily structure, route/cost tradeoffs, Tencent smart document, and whether hotel findings require itinerary adjustments.
 - `hotel-search-cn` owns lodging-source health checks, hotel search, price distribution, cross-platform comparison, Ctrip/Tongcheng/FlyAI/AIGoHotel links, and hotel recommendation ranking.
 - The controller should not duplicate hotel scoring logic. The hotel subskill should not rewrite the whole itinerary.
+- When the user proposes itinerary changes, the controller must independently research and verify the suggestion with travel sources, official notices when relevant, and AMap route checks before changing the final route. Do not blindly accept user-proposed day merges, new stops, transport changes, or lodging anchors.
 - Keep bundled relative paths intact after installation. Do not ask the user to install `travel-planning-cn` and `hotel-search-cn` separately unless they explicitly want direct/debug installs.
 - `xiaohongshu-skills` is a third-party dependency. Do not edit or patch that repository from this skill. When Xiaohongshu research is needed, call its local `scripts/cli.py` from the installed Xiaohongshu project and report any login/Bridge issue instead of changing third-party files.
 
 ## Browser Priority
 
-- For Ctrip/Tongcheng web search, use browser surfaces in this order: agent in-app Browser first, then Codex/Cursor plugin-collection system browser, then standalone Playwright or a persistent Playwright profile.
-- Reuse the same browser/profile after the user logs in. Do not switch browser surfaces mid-search unless the current one is unavailable or blocked.
+- For any browser-based work except Xiaohongshu, use browser surfaces in this fixed order: agent in-app Browser first, then browser-plugin-controlled Chrome/Edge or the current system browser, then standalone Playwright or a persistent Playwright profile; Computer Use is only a last UI fallback after those browser surfaces are unavailable or unsuitable.
+- This rule covers Ctrip/Tongcheng web search, Tencent Docs visual verification, AMap web route rendering, ordinary webpage research and login-dependent travel pages. If the agent in-app Browser has a transient setup/tab/navigation problem, retry the lightweight connection or tab operation before declaring it unavailable. Only use Playwright after the first two surfaces are unavailable, blocked or unsuitable for the task.
+- Reuse the same browser/profile after the user logs in. Do not switch browser surfaces mid-search or mid-verification unless the current one is unavailable or blocked.
 - For Xiaohongshu, treat the XHS Bridge connection as the source of truth. If Edge or Chrome already has the XHS Bridge extension connected, use that connected browser through the Xiaohongshu CLI; if not connected, prefer the browser where the user installed the XHS Bridge extension and ask the user to open/enable it when it cannot be detected.
 
 ## Output Behavior

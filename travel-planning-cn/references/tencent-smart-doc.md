@@ -41,9 +41,21 @@ Prefer Tencent Docs MCP/skill when it is available, but treat every document rea
 - Generate the full MDX patch locally before writing. Do not make exploratory one-line edits while still deciding content.
 - Batch image work: create or capture all route images first, upload them in one pass, store the returned `image_id` values locally, then insert document content that references those IDs.
 - Prefer replacing a whole stable section over many sentence-level edits. When deleting a range is unavoidable, derive all block IDs from the same read pass and delete only the known range between two anchors.
+- Preserve the existing outline unless the actual itinerary structure changes. Do not add temporary outline-level sections such as "adjustment notes" or "new version" to a traveler-facing document; move changed attractions, split-day rationale, source confidence and driving-risk notes into the affected daily sections.
 - Verify with one readback after the batch. Only run a second patch for concrete failures such as missing D-days, empty hrefs, leftover raw URLs or leaked implementation captions.
 - If MCP reports quota/permission failures after the user has authenticated, pause MCP writes and use the browser fallback path rather than retrying repeatedly.
 - `smartcanvas.read` can repeat page frontmatter at the start of each paged response. Strip that per-page metadata before checking for leaked `cover:` or `title:` residue; otherwise the verifier may mistake readback framing for document content and waste quota on no-op updates.
+
+## Browser Visual Verification
+
+MCP readback proves structure, not visual quality. Before final delivery, open the Tencent document in a real browser and inspect the rendered page.
+
+- Browser priority follows the general travel browser rule for all non-Xiaohongshu browser work: agent in-app Browser first, then browser-plugin-controlled Chrome/Edge or the current system browser, then standalone Playwright or a persistent Playwright profile, with Computer Use only as the last visible-UI fallback. Reuse an already logged-in/open Tencent Docs tab whenever available. If the in-app Browser has a transient setup, tab, navigation or screenshot issue, retry the lightweight browser connection or tab operation before falling back.
+- Check the first viewport: cover/route overview image, visible title, conclusion paragraph and route card should be readable without awkward cropping.
+- Check route and itinerary sections: wide tables must not crowd or clip text. If a table is visually narrow, convert it to bullets or short card-like blocks unless it is a compact cost/lodging summary.
+- Check every daily section after itinerary changes: each day should have a matching route image or explicit route illustration, and the visible image caption/alt text must use the same Day number and route as the section heading.
+- Check links and captions in the browser view: links should appear as descriptive text rather than raw long URLs; image captions should be traveler-facing and must not mention internal tooling.
+- If visual verification finds issues, make one local fix plan, batch the smallest MCP edits that address the concrete problems, then re-check only the affected browser sections.
 
 ## Document Structure
 
@@ -52,6 +64,7 @@ The smart document should be visually polished and useful when opened later. Inc
 - A document title in two places: Tencent file title and visible body title. When using fallback creation, start the inserted content with a visible `<Heading level="1">` or `#` title because frontmatter is not used by `smartcanvas.edit`.
 - A short travel card: duration, route, total distance, driving pressure, best season or date caveat, suitable travelers.
 - Route visual: prefer a real route image generated from AMap API-verified route planning. API priority is: WebService route planning with `waypoints` + `show_fields=polyline` -> AMap static map `paths`/`markers`/`labels`; if a richer map UI is needed, use JS API `AMap.Driving` and browser screenshot. Highlight start, recommended waypoints/rest stops and destination with readable real place names or short place-name labels, not only `A/1/Z`. If AMap static `labels` do not render reliably, post-process the PNG locally with verified coordinates and draw readable place labels before upload. Traveler-facing captions and image alt text must use natural descriptions such as `Day 7 大柴旦到茫崖自驾路线图`; keep implementation details like `WebService`, `static map`, `含地名标签`, cache status, or tool names out of the final document. In JSX/MDX image attributes, avoid raw arrows like `->`; use natural wording such as `广州到荆州自驾路线图`. If no real map image can be created, use a clean navigation-style route diagram with a natural `路线示意图` label and keep the route table. Do not use simple straight coordinate lines as daily route maps unless clearly marked as a low-fidelity fallback.
+- Existing-route consistency: when updating an existing smart document, inspect the earliest completed route maps and captions first. If D1/D2 or the overview already use real AMap route/map screenshots, every newly adjusted daily map should match that fidelity and should not be replaced with a schematic route diagram. Use a fallback diagram only after the AMap API/URI/browser route page is unavailable, and keep the fallback reason in chat or work notes rather than in the final user-facing document.
 - Route overview: one compact table or bullets for the whole route, but do not cram all daily details into one wide table.
 - Daily plan: make each day a level-2 section (`## Day N ...`) or MDX `<Heading level="2">`; use level-3 subsections when the day has multiple scenic clusters. Inside each day include start/end, distance/time, a visible `今日动线`/route flow, recommended route stops, attraction official/introductory text links, practical driving notes, parking/weather/supply reminders, important reservation/road-condition checks, and that night's concrete hotel recommendations.
 - Daily route map: generate or capture one route map per day when feasible. For long routes with many days, prioritize every high-complexity driving day and still include a flow/timeline for the rest. Do not leave daily detail as prose only.
@@ -78,12 +91,14 @@ Create route images from map facts rather than decorative guesswork:
 3. Prefer a real AMap route visual:
    - First use WebService route polyline + static map `paths`, `markers` and `labels` for a deterministic API-generated route image. Use `markers` for visible pins and `labels`/legend for readable place names; `markers.label` itself is limited to digits, uppercase letters or one Chinese character. If `labels` are missing in the returned static image, overlay the real place names locally with a raster post-processing step such as Pillow or Sharp, using the same verified coordinates and viewport.
    - If the static map is insufficient, use AMap JS API `AMap.Driving` in a browser and capture the rendered route.
-   - If API routes fail or key/permissions are unavailable, use the browser fallback order: Codex/Cursor built-in browser -> directly controlled Edge/Chrome -> Playwright.
+   - If API routes fail or key/permissions are unavailable, use the browser fallback order: agent in-app Browser -> browser-plugin-controlled Chrome/Edge or the current system browser -> Playwright -> Computer Use fallback.
    - Save the screenshot locally before uploading it to Tencent Docs.
 4. If real AMap tiles or a route screenshot are unavailable, generate an annotated navigation-style route image from AMap route planning data: route steps/major roads first, segment driving distances/durations second, and verified coordinates as anchors only. Label it in natural traveler-facing language as a route illustration, and do not present it as a live navigation screenshot.
 5. For daily route maps, repeat the same process per day. If a daily map cannot be created, include an explicit route flow and a compact segment table for that day.
 
 Do not use a generic line drawing that has no AMap-verified coordinates, route segment data or source label. Do not let a straight-line coordinate chart stand in for a planned driving route when AMap API/MCP route planning is available.
+
+For existing documents, route-image replacements are quality-sensitive. Match the existing real-map route style before uploading replacement images; a new route image should not visibly downgrade from earlier days such as D1/D2. If a user points out that new maps look schematic, treat it as a document-quality bug and regenerate the affected images from AMap route pages, static maps or JS-rendered route screenshots before editing more prose.
 
 ## Image Rules
 
