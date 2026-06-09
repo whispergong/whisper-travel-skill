@@ -29,6 +29,7 @@ If the user does not provide available days:
 - Self-driving: infer from total distance, safe daily driving time, typical guide routes, and scenic density. Prefer not to exceed about 5-7 hours of driving on sightseeing days, and avoid repeated very long days unless the route is mainly transit.
 - Public transit: infer from train/flight/bus frequency, transfer complexity, attraction opening hours, and hotel check-in feasibility.
 - Round trips: include return driving pressure and avoid making the return leg invisible.
+- Round trips should avoid highly repeating the outbound route when there is a reasonable scenic or pressure-balanced alternative. If the safest or shortest return still repeats large sections, say why and offer at least one alternate split or return corridor.
 - State the inferred day count and why it is reasonable.
 
 If the user's requested days are too short, provide a compressed route plus a safer recommended route.
@@ -39,11 +40,16 @@ Each day should have:
 
 - Start and end point.
 - Main route and estimated distance/duration.
-- A visible route flow or timeline using arrows, for example `出发地 -> 沿途点 -> 景区 -> 酒店`.
-- A daily route map or route visual when feasible; when not feasible, keep the arrow flow and a compact segment table.
+- A dedicated level-2 or level-3 daily section in the final guide. Do not make one large all-days table carry the detailed daily route; tables are only for overview and cost/lodging summaries.
+- A visible `今日动线` / route flow or timeline using arrows, for example `出发地 -> 沿途点 -> 景区 -> 酒店`.
+- A daily route map or route visual based on AMap route planning whenever feasible. Prefer API implementation: WebService driving route planning with `waypoints` and returned `polyline`, then AMap static map `paths`/`markers`/`labels` or JS API `AMap.Driving` screenshot. Highlight start, recommended waypoints/rest stops and destination, and make the point names readable with real place names, short place names, or a clear legend. If using static map markers, remember `markers.label` only supports digits, uppercase letters or one Chinese character; put fuller Chinese names in `labels` or the document text. If static map `labels` do not render in the returned PNG, overlay readable place labels locally with verified coordinates before upload. In traveler-facing image alt/captions, use natural route descriptions and do not expose `WebService`, `static map`, `含地名标签`, cache or tool details; in MDX attributes avoid raw `->` and use wording like `广州到荆州自驾路线图`. If no real route screenshot/static map can be created, generate a navigation-style annotated visual from AMap-verified route steps/segments and label it as a route illustration. Do not use a simple straight-line coordinate chart as the daily route map unless the user explicitly accepts a low-fidelity fallback, and label that fallback clearly.
 - 1-4 meaningful stops, not an overloaded checklist.
+- Recommended along-the-way points with a short reason for inclusion or downgrade to optional.
+- Official or credible introductory text links for attractions when available.
 - A lodging anchor that is practical for the next day.
-- Meals/fuel/charging/parking/visitor-center notes when relevant.
+- Important reservation, ticket, road-condition and permit links inside the relevant daily section when that attraction or road appears. Keep whole-trip reservation summaries short and focused on hard-to-book or trip-critical items.
+- Lodging strategy inside the relevant daily section, with hotel/detail/search links carried by descriptive text rather than raw URLs.
+- Driving, parking, weather, meals/fuel/charging/supply and visitor-center notes when relevant.
 
 Score daily splits by:
 
@@ -74,7 +80,7 @@ Cost buckets:
 - Tolls: use AMap/route result if available; otherwise estimate by highway distance and label low confidence.
 - Tickets: official scenic ticket pages or travel sources preferred; Xiaohongshu can provide user-reported prices but needs confidence labels.
 - Parking/transfer/shuttle: gather from Xiaohongshu images, comments, official pages, or map POI notes.
-- Meals: daily rough estimate per person unless the user gives style/budget.
+- Meals: if the user gives a dining style or budget, use that. Otherwise default to `人数 × 天数 × 75 元/人/天`, explicitly showing the people count and day count in the formula.
 - Buffer: 10-15% for route changes, parking, snacks, small paid attractions and price drift.
 
 Confidence labels:

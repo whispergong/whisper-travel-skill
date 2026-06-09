@@ -10,7 +10,7 @@
         "Output includes source health checks for Xiaohongshu, image reading, AMap, hotel-search-cn, and auxiliary travel sources.",
         "Output uses or instructs using Xiaohongshu as a high-weight travel guide source.",
         "Output treats Xiaohongshu as a browser/Bridge automation source rather than direct HTTP/API scraping.",
-        "Output explicitly uses the local /Users/whisper/Desktop/workplace/xiaohongshu-skills/scripts/cli.py entrypoint or changes into /Users/whisper/Desktop/workplace/xiaohongshu-skills before running scripts/cli.py.",
+        "Output explicitly uses the installed xiaohongshu-skills project, such as XIAOHONGSHU_SKILLS_HOME or the path exposed in the current skill list, before running scripts/cli.py.",
         "Output limits Xiaohongshu detail fetching to small batches, such as at most 3 notes before waiting 10-20 seconds.",
         "Output says only one agent should operate the Xiaohongshu browser/detail workflow at a time.",
         "Output explicitly says Xiaohongshu images or route screenshots should be read and converted into itinerary facts.",

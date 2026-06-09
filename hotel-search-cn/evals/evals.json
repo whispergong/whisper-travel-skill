@@ -96,10 +96,10 @@
     {
       "id": 8,
       "prompt": "同程网页端我能正常搜。请修复喀纳斯贾登峪 2026-06-13 到 2026-06-14 这个用例里同程网页被判失败的问题，要求用可见浏览器真实路径，优先复用 Edge/Playwright 持久化 profile，必要时让我登录。",
-      "expected_output": "应优先使用 Codex Chrome/Edge 扩展或可见 Playwright/Edge profile 探索同程真实搜索路径，入口使用 https://www.ly.com/hotel；不要因为首页联想或点击失败就判同程不可用；应记录可用的 hotellist 路由、日期、关键词、命中数和前几条可见酒店结果，并把流程更新进 skill。",
+      "expected_output": "应按 agent 内置浏览器 → Codex/Cursor 插件集合系统浏览器 → Playwright 的优先级探索同程真实搜索路径，入口使用 https://www.ly.com/hotel；不要因为首页联想或点击失败就判同程不可用；应记录可用的 hotellist 路由、日期、关键词、命中数和前几条可见酒店结果，并把流程更新进 skill。",
       "files": [],
       "assertions": [
-        "Output uses or instructs using the Codex Chrome/Edge extension first when available, otherwise a visible browser/profile for Tongcheng web.",
+        "Output uses or instructs the browser priority: agent in-app Browser first, then Codex/Cursor plugin-collection system browser, then Playwright fallback.",
         "Output uses or records the Tongcheng hotel entry URL https://www.ly.com/hotel.",
         "Output does not treat a failed homepage suggestion path as final Tongcheng failure without retrying.",
         "Output includes a stable Tongcheng hotellist route or equivalent visible user-path flow.",

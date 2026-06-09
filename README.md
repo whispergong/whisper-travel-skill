@@ -34,7 +34,7 @@ rsync -a --delete whisper-travel-skill/ "${HOME}/.codex/skills/whisper-travel-cn
 `travel-planning-cn` 会把小红书作为高权重攻略来源。小红书采集应走本地项目的浏览器自动化路径：`scripts/cli.py` 通过 Chrome/扩展/Bridge 操作真实浏览器页面，登录、扫码验证和风控处理都在可见浏览器里完成。
 
 ```bash
-cd /Users/whisper/Desktop/workplace/xiaohongshu-skills
+cd "$XIAOHONGSHU_SKILLS_HOME"
 ./.venv/bin/python scripts/cli.py check-login
 ```
 
@@ -48,7 +48,7 @@ cd /Users/whisper/Desktop/workplace/xiaohongshu-skills
 mcporter list tencent-docs
 ```
 
-如果提示 token 失效或未授权，请按 `/Users/whisper/Desktop/workplace/tencent-docs/SKILL.md` 中的授权说明完成登录授权后重试。文档内图片必须先通过腾讯文档 `upload_image` 上传，不能直接使用外链图片。
+如果提示 token 失效或未授权，请按当前会话中的 `tencent-docs` skill 或 `TENCENT_DOCS_SKILL_HOME` 里的授权说明完成登录授权后重试。文档内图片必须先通过腾讯文档 `upload_image` 上传，不能直接使用外链图片。
 
 ## FlyAI MCP 支撑工具
 

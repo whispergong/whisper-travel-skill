@@ -57,7 +57,7 @@ Capture from each item:
 Failure handling:
 
 - If the CLI is missing, install it with `npm i -g @fly-ai/flyai-cli`, then verify with `flyai --help` and one lightweight `search-hotel` or `keyword-search` call.
-- If an agent needs MCP access, prefer the local `flyai-cli` MCP wrapper configured at `/Users/whisper/Desktop/workplace/whisper-travel-skill/tools/flyai-cli-mcp/server.mjs`. It calls the verified CLI and works for Codex/Cursor without relying on static HTTP headers.
+- If an agent needs MCP access, prefer the repo-relative `tools/flyai-cli-mcp/server.mjs` wrapper. It calls the verified CLI from `FLYAI_BIN` or PATH and works for Codex/Cursor without relying on static HTTP headers.
 - Use `flyai-http` only as a diagnostic path. The FlyAI CLI signs requests with dynamic `x-ff-ctx`, `x-ttid`, and HMAC headers; a static Bearer-only Streamable HTTP MCP can return 401 even when the CLI key is valid.
 - To diagnose `flyai-http`, test the Streamable HTTP endpoint directly:
 
@@ -94,7 +94,7 @@ Capture:
 
 Failure handling:
 
-- If `/Users/whisper/.codex/config.toml` contains `mcp_servers.aigohotel` but no tool is exposed to this session, try Streamable HTTP fallback before declaring it unavailable:
+- If the active Codex config, such as `$CODEX_HOME/config.toml`, `$HOME/.codex/config.toml`, or `%USERPROFILE%\.codex\config.toml`, contains `mcp_servers.aigohotel` but no tool is exposed to this session, try Streamable HTTP fallback before declaring it unavailable:
 
 ```bash
 MCP_SECRETS_FILE="${MCP_SECRETS_FILE:-$HOME/.config/mcp/secrets.env}"
@@ -119,7 +119,7 @@ curl -sS -X POST "https://mcp.aigohotel.com/mcp" \
 Then call `tools/list` and look for `searchHotels` and `getHotelDetail`. If present, record "AIGoHotel callable via HTTP fallback" and use `tools/call`. You can also use the bundled helper, which wraps the same JSON-RPC calls:
 
 ```bash
-node /Users/whisper/Desktop/workplace/whisper-travel-skill/hotel-search-cn/scripts/aigohotel-mcp.mjs tools-list
+node hotel-search-cn/scripts/aigohotel-mcp.mjs tools-list
 ```
 
 Search example:
@@ -152,7 +152,7 @@ curl -sS -X POST "https://mcp.aigohotel.com/mcp" \
 Equivalent helper command:
 
 ```bash
-node /Users/whisper/Desktop/workplace/whisper-travel-skill/hotel-search-cn/scripts/aigohotel-mcp.mjs search \
+node hotel-search-cn/scripts/aigohotel-mcp.mjs search \
   --place "贾登峪" \
   --place-type "详细地址" \
   --check-in-date 2026-06-13 \
@@ -172,7 +172,7 @@ node /Users/whisper/Desktop/workplace/whisper-travel-skill/hotel-search-cn/scrip
 Use the official Chengxin hotel script:
 
 ```bash
-cd /Users/whisper/.agents/skills/chengxin
+cd "$CHENGXIN_SKILL_HOME"
 node scripts/hotel-query.js \
   --destination "<city-or-region>" \
   --extra "<check-in/check-out, adults/children/rooms, POI/anchor, budget, facilities, exclusions>" \
@@ -230,20 +230,26 @@ Failure handling:
 - Missing `WENDAO_API_KEY` is a source-health issue.
 - If Wendao returns prose rather than structured rows, extract only facts present in the response and mark field completeness as partial.
 
-## Visible Browser / Edge Extension / Playwright Profile
+## Visible Browser / System Browser Plugin / Playwright Profile
 
 Use a user-visible browser for Ctrip and Tongcheng web checks. Follow the Playwright best-practices skill for locator choice, authentication reuse, waits, and multi-tab handling.
 
-Preferred order:
+Preferred order for Ctrip/Tongcheng web search:
 
-1. Codex Chrome/Edge extension: use the existing user Edge window/profile, claim an existing hotel tab or open a new tab, then operate through `tab.playwright` locators. This is the best path for real login state, member prices, and user-visible login handoff.
-2. Existing visible Edge/Playwright persistent profile: use this only if the extension route is unavailable. In the current Codex/Cursor setup this may look like `--browser msedge --user-data-dir ...`.
-3. Codex in-app browser: acceptable for public page structure checks, but it normally does not share Edge cookies or member login state, so do not rely on it for login-only prices.
+1. Agent in-app Browser: use the Codex in-app Browser (`iab`) first. Open or reuse Ctrip/Tongcheng tabs there and continue in the same in-app browser profile after the user logs in.
+2. Codex/Cursor plugin-collection system browser: use the user's Edge/Chrome/system browser through the available plugin collection only when the in-app Browser is unavailable, blocked, not logged in while system-browser login is required, or the user explicitly wants the system browser profile. Claim an existing hotel tab or open a new tab, then operate through `tab.playwright` locators.
+3. Standalone Playwright or persistent Playwright profile: use only after the two browser surfaces above are unavailable or unsuitable. In the current Codex/Cursor setup this may look like `--browser msedge --user-data-dir ...`.
 4. New persistent browser profile: last resort; tell the user which profile is being used.
 
-Extension route checks:
+In-app Browser route checks:
 
-- Bootstrap through the Chrome skill/browser-client and call `agent.browsers.get("extension")`.
+- Bootstrap through the Browser skill/browser-client and call `agent.browsers.get("iab")`.
+- If a matching Ctrip/Tongcheng tab is already open, reuse it. Otherwise open a new tab in the in-app Browser.
+- If login is needed, make the tab visible, let the user log in, and continue in the same `iab` profile. Do not switch to the system browser unless the in-app Browser cannot complete the login/search path.
+
+Plugin-collection system browser route checks:
+
+- Bootstrap through the Chrome/Edge/system-browser skill exposed by Codex/Cursor and call the relevant extension/system browser client.
 - Call `browser.user.openTabs()` once to confirm the extension can see tabs. Any non-error response means the extension is usable.
 - If a matching Ctrip/Tongcheng tab is already open, claim it with `browser.user.claimTab(tabInfo)` using the exact object returned by `openTabs()`.
 - If no matching tab is open, use `browser.tabs.new()` and navigate to the platform homepage.
@@ -252,15 +258,15 @@ Extension route checks:
 Concurrency and fallback:
 
 - When multiple agents are collecting sources, avoid simultaneous writes and avoid closing the shared browser. Browser agents should open their own tab, capture results, and leave the session available for others.
-- Do not run several Playwright agents against the same persistent `user-data-dir` at the same time. If old Playwright MCP Edge sessions are timing out or stuck loading, prefer the extension route or stop the duplicate MCP sessions before retrying.
-- If the user asks to use the global Edge profile and it is already occupied, try the extension route or open a new tab in the existing browser. Do not forcibly close or steal the user's browser.
+- Do not run several Playwright agents against the same persistent `user-data-dir` at the same time. If old Playwright MCP Edge sessions are timing out or stuck loading, prefer the in-app Browser first, then the plugin-collection system browser, or stop the duplicate MCP sessions before retrying.
+- If the user asks to use the global Edge/Chrome profile and it is already occupied, try the plugin-collection system browser route or open a new tab in the existing browser. Do not forcibly close or steal the user's browser.
 - For login-required pages, navigate visibly to the login/search/detail page and ask the user to complete login. After login, continue in the same browser/profile so the session persists for later agents.
 - Use role/label/text locators first; use CSS selectors only for non-semantic legacy pages or after capturing visible page structure.
-- Avoid AppleScript DOM execution as a primary path. Edge may block JavaScript from Apple Events unless the user enables that setting, and the extension route is more reliable.
+- Avoid AppleScript DOM execution as a primary path. Edge may block JavaScript from Apple Events unless the user enables that setting; the in-app Browser and plugin-collection system browser routes are more reliable.
 
 ## Tongcheng Web
 
-Use Playwright to simulate a user on the visible web UI.
+Use the browser priority above to simulate a user on the visible web UI. Playwright is only the fallback after the in-app Browser and plugin-collection system browser are unavailable or unsuitable.
 
 Validated paths:
 
@@ -354,7 +360,7 @@ Failure handling:
 
 ## Ctrip Web
 
-Use Playwright to simulate a user on desktop or mobile Ctrip hotel search.
+Use the browser priority above to simulate a user on desktop or mobile Ctrip hotel search. Playwright is only the fallback after the in-app Browser and plugin-collection system browser are unavailable or unsuitable.
 
 Preferred paths:
 

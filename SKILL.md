@@ -21,6 +21,13 @@ This is the integrated entrypoint for the `whisper-travel-skill` repository. Use
 - `hotel-search-cn` owns lodging-source health checks, hotel search, price distribution, cross-platform comparison, Ctrip/Tongcheng/FlyAI/AIGoHotel links, and hotel recommendation ranking.
 - The controller should not duplicate hotel scoring logic. The hotel subskill should not rewrite the whole itinerary.
 - Keep bundled relative paths intact after installation. Do not ask the user to install `travel-planning-cn` and `hotel-search-cn` separately unless they explicitly want direct/debug installs.
+- `xiaohongshu-skills` is a third-party dependency. Do not edit or patch that repository from this skill. When Xiaohongshu research is needed, call its local `scripts/cli.py` from the installed Xiaohongshu project and report any login/Bridge issue instead of changing third-party files.
+
+## Browser Priority
+
+- For Ctrip/Tongcheng web search, use browser surfaces in this order: agent in-app Browser first, then Codex/Cursor plugin-collection system browser, then standalone Playwright or a persistent Playwright profile.
+- Reuse the same browser/profile after the user logs in. Do not switch browser surfaces mid-search unless the current one is unavailable or blocked.
+- For Xiaohongshu, treat the XHS Bridge connection as the source of truth. If Edge or Chrome already has the XHS Bridge extension connected, use that connected browser through the Xiaohongshu CLI; if not connected, prefer the browser where the user installed the XHS Bridge extension and ask the user to open/enable it when it cannot be detected.
 
 ## Output Behavior
 

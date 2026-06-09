@@ -32,8 +32,7 @@ function addArg(args, flag, value) {
 
 async function runFlyai(args) {
   loadSecrets();
-  const defaultFlyaiBin = "/Users/whisper/.nvm/versions/node/v22.22.2/bin/flyai";
-  const flyaiBin = process.env.FLYAI_BIN || (existsSync(defaultFlyaiBin) ? defaultFlyaiBin : "flyai");
+  const flyaiBin = process.env.FLYAI_BIN || "flyai";
   const { stdout, stderr } = await execFileAsync(flyaiBin, args, {
     env: process.env,
     maxBuffer: 1024 * 1024 * 10,
