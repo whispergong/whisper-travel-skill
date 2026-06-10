@@ -19,6 +19,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Local planning/export artifacts generated while operating external docs and maps.
+.codex-output/
+outputs/
+tencent-doc-snapshot-after-edits.md
+
+# Python runtime caches from helper scripts.
+__pycache__/
+*.py[cod]
+
 # Skill evaluation workspaces are generated run artifacts, not installable skill content.
 whisper-travel-cn-workspace/
 hotel-search-cn-workspace/
