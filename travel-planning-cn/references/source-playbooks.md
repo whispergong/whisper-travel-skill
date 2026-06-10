@@ -58,6 +58,22 @@ Use ordinary web search to corroborate and broaden Xiaohongshu findings.
 - For image-heavy web pages, inspect key images or screenshots using the same image-reading process.
 - Weighting: Xiaohongshu has high practical-experience weight, but official notices win for closures, tickets, traffic restrictions, and safety.
 
+## Ctrip / Tongcheng Travel Products
+
+携程、同程网页端的跟团游、私家团、包车游和当地参团产品是高权重路线证据，尤其适合验证“常规线路怎么排、哪些点常被同日合并、哪些点通常需要单独一天”。这些产品的路线模式权重与小红书高赞实用攻略同级，但仍低于官方关闭/预约/交通安全信息。
+
+Browser access follows the global non-Xiaohongshu priority: agent in-app Browser first, then browser-plugin-controlled Chrome/Edge or the current system browser, then Playwright/persistent profile, then Computer Use. If the in-app Browser fails once because of tab, navigation, screenshot, or connection state, retry lightweight recovery several times before falling back.
+
+For each useful product, record:
+
+- Platform and product URL, product type, departure city, route length, supplier/brand and whether it is self-operated.
+- Day-by-day itinerary, especially overnight points, route order, optional/backup attractions, permits, age/vehicle/altitude limits and weather substitution rules.
+- Visible evidence quality: sales/order/traveler count, rating, review count, recent review recency, price and included/excluded items.
+- Weighting judgement: upgrade products with high sales, high ratings, many reviews, clear route detail and repeated agreement across platforms; downgrade low-sales/unrated products, copied route shells, unclear supplier pages or products where the advertised route is conditional.
+- Use product consensus to evaluate user-proposed merges/splits, but still verify the actual self-driving distance and day pressure with AMap.
+
+When product data and Xiaohongshu disagree, explain the tradeoff: products often optimize for commercial feasibility and convoy timing, while Xiaohongshu notes often reveal parking, fatigue, weather and on-the-ground friction.
+
 ## AMap MCP / WebService / JS API
 
 Use 高德 for China route verification, route visuals and POI grounding:
